@@ -62,7 +62,7 @@
                 <h4>"{{ beer.abv }}"</h4>
                 <h4>Style: {{ beer.style }} </h4>
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer()"></span>
-                <h4>Average Rating: {{ avgFun(beer.ratings) }}</h4>
+                <h4>Average Rating: {{ avgFun(beer.rating) }}</h4>
                 <select class="form-control" ng-model="userRating">
                             <option value="">Add your own rating</option>
                             <option value="1">1</option>

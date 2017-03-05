@@ -16,7 +16,7 @@ app.controller('mainController', function($scope,service) {
 	      name: this.name,
 	      style: this.style,
 	      abv: this.abv,
-	      ratings: this.rating,
+	      rating: [this.rating],
 	      image: this.image
 	    }
 
@@ -38,7 +38,9 @@ app.controller('mainController', function($scope,service) {
   	}
 
   	$scope.addRating = function () {
-  		alert("clicked");
+  		//alert(this.beer[this.$index].ratings);
+  		this.beer.rating.push(Number(this.userRating));
+  		this.userRating = "";
   	}
 
 })
