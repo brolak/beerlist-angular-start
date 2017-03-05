@@ -18,13 +18,8 @@ app.controller('mainController', function($scope,service) {
 	    this.beerImage="";
   	}
 
-	/*$scope.iconSwitch = function () {
-		this.delete = !this.delete;
-		this.removal = !this.removal;
-	}
-	};
+  	$scope.removeBeer = function () {
+  		this.beers.splice(this.$index,1);
+  	}
 
-	$scope.remove = function () {
-		this.collection.splice(this.$index,1);
-	}*/
 })

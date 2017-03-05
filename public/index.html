@@ -45,7 +45,7 @@
                 <h3>{{ beer.name }}</h3>
                 <h4>{{ beer.style }}</h4>
                 <h4>{{ beer.abv }}</h4>
-                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer()"></span>
                 <img src="{{ beer.image }}" alt="Image of {{ beer.name }}"/>
                 <br>
             </div>
