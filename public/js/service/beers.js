@@ -21,6 +21,8 @@ app.service('service', function(){
   }
   ];
 
+
+
   return { 
     beers: beers
   };
