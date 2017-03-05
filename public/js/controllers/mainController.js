@@ -24,4 +24,8 @@ app.controller('mainController', function($scope,service) {
   		this.beers.splice(this.$index,1);
   	}
 
+  	$scope.sort = function () {
+  		
+  	}
+
 })
