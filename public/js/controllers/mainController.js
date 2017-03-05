@@ -27,8 +27,10 @@ app.controller('mainController', function($scope,service) {
   		this.beers.splice(this.$index,1);
   	}
 
+
   	$scope.sortBeers = function () {
   		this.reverse = !this.reverse;
+
   	}
 
 })

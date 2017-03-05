@@ -28,6 +28,7 @@ app.service('service', function(){
     abv: "AK",
     image: "https://c1.staticflickr.com/9/8466/8140544321_75da7d4171.jpg",
     rating: 5
+
   },
   {
     name: "Coor's",
@@ -35,6 +36,7 @@ app.service('service', function(){
     abv: "Coors",
     image: "http://vignette3.wikia.nocookie.net/itsalwayssunny/images/b/bd/Coors_Light_Logo.jpg/revision/latest?cb=20110903221221",
     rating: 2
+
   }
   ];
 
