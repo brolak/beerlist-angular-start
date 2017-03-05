@@ -4,33 +4,41 @@ app.controller('mainController', function($scope,service) {
 
   	$scope.reverse = false;
 
+  	$scope.avgFun = function (arr) {
+      for(i=0,total=0;i<arr.length;i++){
+        total += arr[i];
+      }
+      return (total/arr.length).toFixed(1);
+  	};
+
   	$scope.addBeer = function () {
 	    var newBeer = {
-	      name: this.beerName,
-	      style: this.beerStyle,
-	      abv: this.beerAbv,
-	      rating: this.beerRating,
-	      image: this.beerImage
+	      name: this.name,
+	      style: this.style,
+	      abv: this.abv,
+	      ratings: this.rating,
+	      image: this.image
 	    }
 
 	    this.beers.push(newBeer);
-	    this.beerName="";
-	    this.beerStyle="";
-	    this.beerAbv="";
-	    this.beerImage="";
-	    this.beerRating="";
+	    this.name="";
+	    this.style="";
+	    this.abv="";
+	    this.image="";
+	    this.rating="";
   	}
 
   	$scope.removeBeer = function () {
-  		console.log(this.beers);
-  		console.log(this.$index);
   		this.beers.splice(this.$index,1);
   	}
 
 
   	$scope.sortBeers = function () {
   		this.reverse = !this.reverse;
+  	}
 
+  	$scope.addRating = function () {
+  		alert("clicked");
   	}
 
 })

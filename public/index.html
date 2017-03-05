@@ -17,16 +17,16 @@
                     <h3>Add a new beer</h3>
                     <div class="form-group">
 
-                        <input type="text" class="form-control" placeholder="Beer Name" ng-model="beerName"/>
+                        <input type="text" class="form-control" placeholder="Beer Name" ng-model="name"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Style" ng-model="beerStyle"/>
+                        <input type="text" class="form-control" placeholder="Style" ng-model="style"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="ABV" ng-model="beerAbv"/>
+                        <input type="text" class="form-control" placeholder="ABV" ng-model="abv"/>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Image URL" ng-model="beerImage"/>
+                        <input type="text" class="form-control" placeholder="Image URL" ng-model="image"/>
                     </div>
                     <div class="form-group">
                         <select class="form-control" ng-model="beerRating">
@@ -57,13 +57,22 @@
 
         <!-- Render area for beers -->
         <div class="row">
-            <div class="col-md-3 text-center beer-block" ng-repeat="beer in beers | orderBy: 'rating': reverse">
+            <div class="col-md-3 text-center beer-block" ng-repeat="beer in beers| orderBy: 'rating': reverse track by $index">
                 <h3>{{ beer.name }}</h3>
-                <h4>Style: {{ beer.style }} Average Rating: {{ beer.rating }}</h4>
-                <h4>{{ beer.abv }}</h4>
+                <h4>"{{ beer.abv }}"</h4>
+                <h4>Style: {{ beer.style }} </h4>
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer()"></span>
+                <h4>Average Rating: {{ avgFun(beer.ratings) }}</h4>
+                <select class="form-control" ng-model="userRating">
+                            <option value="">Add your own rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                </select>
+                <button type="button" class="btn btn-info" ng-click="addRating()">Submit your rating</button>
                 <img src="{{ beer.image }}" alt="Image of {{ beer.name }}"/>
-                <br>
             </div>
         </div>
 
