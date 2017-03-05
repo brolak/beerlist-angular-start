@@ -1,7 +1,8 @@
 app.controller('mainController', function($scope,service) {
 	//define variable in scope of controller
   	$scope.beers = service.beers;
-  	$scope.addBeer = service.addBeer;
+
+  	$scope.reverse = false;
 
   	$scope.addBeer = function () {
 	    var newBeer = {
@@ -21,7 +22,13 @@ app.controller('mainController', function($scope,service) {
   	}
 
   	$scope.removeBeer = function () {
+  		console.log(this.beers);
+  		console.log(this.$index);
   		this.beers.splice(this.$index,1);
+  	}
+
+  	$scope.sortBeers = function () {
+  		this.reverse = !this.reverse;
   	}
 
 })
