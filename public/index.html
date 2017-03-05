@@ -25,6 +25,16 @@
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Image URL" ng-model="beerImage"></input>
                     </div>
+                    <div class="form-group">
+                        <select class="form-control" ng-model="beerRating">
+                            <option value="">Rate this beer</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
                 
@@ -43,7 +53,7 @@
         <div class="row">
             <div class="col-md-3 text-center beer-block" ng-repeat="beer in beers">
                 <h3>{{ beer.name }}</h3>
-                <h4>{{ beer.style }}</h4>
+                <h4>Style: {{ beer.style }} Rating: {{ beer.rating }}</h4>
                 <h4>{{ beer.abv }}</h4>
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer()"></span>
                 <img src="{{ beer.image }}" alt="Image of {{ beer.name }}"/>

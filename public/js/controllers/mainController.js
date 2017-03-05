@@ -8,6 +8,7 @@ app.controller('mainController', function($scope,service) {
 	      name: this.beerName,
 	      style: this.beerStyle,
 	      abv: this.beerAbv,
+	      rating: this.beerRating,
 	      image: this.beerImage
 	    }
 
@@ -16,6 +17,7 @@ app.controller('mainController', function($scope,service) {
 	    this.beerStyle="";
 	    this.beerAbv="";
 	    this.beerImage="";
+	    this.beerRating="";
   	}
 
   	$scope.removeBeer = function () {
