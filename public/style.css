@@ -9,4 +9,5 @@ img {
 
 .glyphicon {
 	color: red;
+	display:inline-block;
 }

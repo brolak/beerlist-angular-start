@@ -13,14 +13,14 @@ app.service('service', function(){
     style: "Moose piss",
     abv: "MH",
     image: "http://moosehead.ca/wp-content/uploads/2015/10/cropped-moosehead_logo-180x180.png",
-    rating: [3]
+    rating: [3,3,1]
   },
   {
     name: "Alexander Keith's",
     style: "IPA",
     abv: "AK",
     image: "https://c1.staticflickr.com/9/8466/8140544321_75da7d4171.jpg",
-    rating: [4]
+    rating: [4,4,4,2]
 
   },
   {
@@ -28,7 +28,7 @@ app.service('service', function(){
     style: "Light Lager",
     abv: "Coors",
     image: "http://vignette3.wikia.nocookie.net/itsalwayssunny/images/b/bd/Coors_Light_Logo.jpg/revision/latest?cb=20110903221221",
-    rating: [5]
+    rating: [5,4,5,4,5,4,5]
 
   }
   ];

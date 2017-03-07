@@ -4,6 +4,12 @@ app.controller('mainController', function($scope,service) {
 
   	$scope.reverse = false;
 
+    $scope.edit = false;
+
+    $scope.editFun = function () {
+      $scope.edit = !$scope.edit;
+    }
+
   	$scope.avgFun = function (arr) {
       for(i=0,total=0;i<arr.length;i++){
         total += arr[i];
@@ -16,7 +22,7 @@ app.controller('mainController', function($scope,service) {
 	      name: this.name,
 	      style: this.style,
 	      abv: this.abv,
-	      rating: [this.rating],
+	      rating: [Number(this.rating)],
 	      image: this.image
 	    }
 
