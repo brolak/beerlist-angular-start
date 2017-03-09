@@ -54,6 +54,18 @@ app.delete('/beers/:id', function(req, res, next) {
   });
 });
 
+//update function
+app.put('/beers/:id', function(req, res, next) {
+  Beer.findByIdAndUpdate(req.params.id, req.body, {new:true},function(err, beer) {
+    if (err) {
+      console.error(err)
+      return next(err);
+    } else {
+      res.send(beer);
+    }
+  });
+});
+
 //start listening
 app.listen(port, function () {
 	console.log(port + " is listening");
