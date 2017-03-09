@@ -20,7 +20,6 @@ app.use(express.static('public'));
 app.use(express.static('node_modules'));
 
 //find beers in database
-
 app.get('/beers', function (request, response, next) {
   Beer.find(function (error, beers) {
     if (error) {
@@ -31,6 +30,7 @@ app.get('/beers', function (request, response, next) {
   });
 });
 
+//post new beer to database
 app.post('/beers', function(req, res, next) {
   Beer.create(req.body, function(err, beer) {
     if (err) {
@@ -43,9 +43,18 @@ app.post('/beers', function(req, res, next) {
 });
 
 //delete function
-
+app.delete('/beers/:id', function(req, res, next) {
+  Beer.findByIdAndRemove(req.params.id, function(err) {
+    if (err) {
+      console.error(err)
+      return next(err);
+    } else {
+      res.send("something worked?");
+    }
+  });
+});
 
 //start listening
 app.listen(port, function () {
-	console.log(port+" is listening");
+	console.log(port + " is listening");
 });
