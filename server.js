@@ -4,6 +4,8 @@ var app = express();
 
 //use mongoose dependancy for mongoose work
 var mongoose = require('mongoose');
+mongoose.connect("mongodb://localhost/beers");
+var Beer = require("./BeerModel");
 
 //use body parser for request work
 var bodyParser = require('body-parser');
@@ -17,13 +19,31 @@ var port = /*process.env.PORT ||*/ 8080;
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
 
-//initialize some hardcoded beers
-app.get('/beers', function (req, res, next) {
-  res.json({beers: [
-    { name: '512 IPA', style: 'IPA', image_url: 'http://bit.ly/1XtmB4d', abv: 5 },
-    { name: '512 Pecan Porter', style: 'Porter', image_url: 'http://bit.ly/1Vk5xj4', abv: 4 }
-  ]});
+//find beers in database
+
+app.get('/beers', function (request, response, next) {
+  Beer.find(function (error, beers) {
+    if (error) {
+      console.error(error)
+      return next(error);
+    } 
+    response.send(beers);
+  });
 });
+
+app.post('/beers', function(req, res, next) {
+  Beer.create(req.body, function(err, beer) {
+    if (err) {
+      console.error(err)
+      return next(err);
+    } else {
+      res.json(beer);
+    }
+  });
+});
+
+//delete function
+
 
 //start listening
 app.listen(port, function () {
