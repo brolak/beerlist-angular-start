@@ -5,9 +5,9 @@ var app = express();
 //use mongoose dependancy for mongoose work
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/beers");
-var Beer = require("./BeerModel");
+var Beer = require("./public/js/models/BeerModel.js");
 
-//use body parser for request work
+//use body parser middleware
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -63,6 +63,23 @@ app.put('/beers/:id', function(req, res, next) {
     } else {
       res.send(beer);
     }
+  });
+});
+
+// error handler to catch 404 and forward to main error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
+
+// main error handler
+// warning - not for use in production code!
+app.use(function(err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: err
   });
 });
 
