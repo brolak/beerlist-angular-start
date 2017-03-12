@@ -19,7 +19,7 @@ var port = /*process.env.PORT ||*/ 8080;
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
 
-//find beers in database
+//find beers in database FOR TESTING
 app.get('/beers', function (request, response, next) {
   Beer.find(function (error, beers) {
     if (error) {
@@ -31,30 +31,41 @@ app.get('/beers', function (request, response, next) {
 });
 
 //post new beer to database
-app.post('/beers', function(req, res, next) {
-  Beer.create(req.body, function(err, beer) {
+app.post('/beers', function(request, response, next) {
+  Beer.create(request.body, function(err, beer) {
     if (err) {
       console.error(err)
       return next(err);
-    } else {
-      res.json(beer);
     }
   });
 });
 
-//delete function
+//add new rating for a beer
+app.get('/beers/rating/:id', function(req, res, next) {
+  Beer.findById(req.params.id/*, { $push : {rating : req.body}}, {new:true}*/,function(err, beer) {
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+    res.send(beer.rating);
+    }
+  });
+//this function only finds the existing rating array
+});
+
+//path for beer delete request
 app.delete('/beers/:id', function(req, res, next) {
   Beer.findByIdAndRemove(req.params.id, function(err) {
     if (err) {
       console.error(err)
       return next(err);
     } else {
-      res.send("something worked?");
+      res.send("Thank you for deleting beer "+req.params.id);
     }
   });
 });
 
-//update function
+//path for beer add (PUT) request
 app.put('/beers/:id', function(req, res, next) {
   Beer.findByIdAndUpdate(req.params.id, req.body, {new:true},function(err, beer) {
     if (err) {

@@ -7,7 +7,8 @@ var beerSchema = new Schema ({
 	abv: String,
     style: String,
     image: String,
-    rating: [Number]
+    rating: [Number],
+    avgRating: Number
 }, {versionKey: false});
 
 var Beer = mongoose.model('Beer', beerSchema);
