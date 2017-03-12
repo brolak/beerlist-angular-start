@@ -2,7 +2,7 @@
 var express = require('express');
 var app = express();
 
-//use mongoose dependancy for mongoose work
+//use mongoose dependancy
 var mongoose = require('mongoose');
 mongoose.connect("mongodb://localhost/beers");
 var Beer = require("./public/js/models/BeerModel.js");
@@ -12,45 +12,35 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//declare port for heroku publication
+//declare port (heroku publication)
 var port = /*process.env.PORT ||*/ 8080;
 
 //setup directories for server access
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
 
-//find beers in database FOR TESTING
-app.get('/beers', function (request, response, next) {
+//find all beers in database, used to rendering all
+app.get('/beers', function (req, res, next) {
   Beer.find(function (error, beers) {
     if (error) {
       console.error(error)
       return next(error);
     } 
-    response.send(beers);
+    res.send(beers);
   });
 });
 
 //post new beer to database
-app.post('/beers', function(request, response, next) {
-  Beer.create(request.body, function(err, beer) {
+app.put('/beers', function(req, res, next) {
+  Beer.create(req.body, function(err, beer) {
     if (err) {
       console.error(err)
       return next(err);
-    }
+    } else {
+    console.log(req.body);
+    res.send("thanks for adding a beer");
+	}
   });
-});
-
-//add new rating for a beer
-app.get('/beers/rating/:id', function(req, res, next) {
-  Beer.findById(req.params.id/*, { $push : {rating : req.body}}, {new:true}*/,function(err, beer) {
-    if (err) {
-      console.error(err);
-      return next(err);
-    }
-    res.send(beer.rating);
-    }
-  });
-//this function only finds the existing rating array
 });
 
 //path for beer delete request
@@ -59,13 +49,36 @@ app.delete('/beers/:id', function(req, res, next) {
     if (err) {
       console.error(err)
       return next(err);
-    } else {
-      res.send("Thank you for deleting beer "+req.params.id);
-    }
+    } 
+    res.send("Thank you for deleting a beer");
   });
 });
 
+//add new rating for a beer to it's rating array
+app.put('/beers/rating/:id', function(req, res, next) {
+  Beer.update({_id: req.params.id }, { $push: req.body },{new:true},function(err) {
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+    res.send("new rating added");
+  });
+});
+
+//update the average value of ratings, for when rating added
+app.post('/beers/rating/:id', function(req, res, next) {
+  Beer.update({ _id: req.params.id}, req.body,{new:true},function(err) {
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+    res.send("new average!");
+  });
+});
+
+
 //path for beer add (PUT) request
+/*will be used for updating beers
 app.put('/beers/:id', function(req, res, next) {
   Beer.findByIdAndUpdate(req.params.id, req.body, {new:true},function(err, beer) {
     if (err) {
@@ -75,7 +88,8 @@ app.put('/beers/:id', function(req, res, next) {
       res.send(beer);
     }
   });
-});
+});*/
+
 
 // error handler to catch 404 and forward to main error handler
 app.use(function(req, res, next) {

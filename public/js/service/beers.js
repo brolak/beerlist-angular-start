@@ -3,15 +3,6 @@ app.service('service', function($http){
   //empty array for holding beers from database
   var beers = [];
 
-  //function for clearing the entry form after submission
-  var clearForm = function () {
-    this.name = "";
-    this.style = "";
-    this.abv = "";
-    this.rating = "";
-    this.image = "";
-  };
-
   // function for calculating the average of the ratings array
   var avgFun = function (arr) {
       for(i=0,total=0;i<arr.length;i++){
@@ -39,11 +30,16 @@ app.service('service', function($http){
       rating: [Number(this.rating)],
       avgRating: Number(this.rating),
       image: this.image
-    }
+    };
 
-    return $http.post('/beers',newBeer)
+    this.name = "";
+    this.style = "";
+    this.abv = "";
+    this.rating = "";
+    this.image = "";
+
+    return $http.put('/beers',newBeer)
       .then(function(response) {
-        clearForm();
         getBeers();
       }, function (err) {
         console.log(err)
@@ -52,7 +48,7 @@ app.service('service', function($http){
 
   //function for removing beer from list based on _id in databse and re-render view
   var removeBeer = function () {
-    return $http.delete('/beers/'+(this.beer._id))
+    return $http.delete('/beers/'+this.beer._id)
     .then(function(response) {
       getBeers();
     }, function (err) {
@@ -60,14 +56,26 @@ app.service('service', function($http){
     })
   };
 
+  var newAvg = function () {
+    var newAverage = { avgRating : avgFun(this.beer.rating)};
+    console.log(newAverage);
+    return $http.post('/beers/rating/'+this.beer._id, newAverage)
+      .then(function(response) {
+        response.send("updated the average");
+      }, function (err) {
+        console.log(err)
+      })
+  };
+
   //function for adding new rating to specific beer
   var addRating = function () {
-    var newRating = Number(this.userRating);
+    var newRating = { rating : Number(this.userRating)};
     this.userRating = "";
-    return $http.get('/beers/rating/'+this.beer._id/*, newRating*/)
+    return $http.put('/beers/rating/'+this.beer._id, newRating)
       .then(function(response) {
-        console.log(response.data);
-        //getBeers();
+        console.log(response.beer);
+        newAvg();
+        getBeers();
       }, function (err) {
         console.log(err)
       })
@@ -77,7 +85,6 @@ app.service('service', function($http){
   //exporting functions to the controller
   return { 
     beers: beers,
-    clearForm: clearForm,
     getBeers: getBeers,
     addBeer: addBeer,
     removeBeer: removeBeer,
