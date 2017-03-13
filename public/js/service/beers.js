@@ -32,7 +32,7 @@ app.service('service', function($http){
 
     return $http.put('/beers',newBeer)
       .then(function(response) {
-        getBeers();
+        beers.push(response.data);
       }, function (err) {
         console.log(err)
       })
@@ -56,18 +56,18 @@ app.service('service', function($http){
     return (total/arr.length).toFixed(1);
   };
 
-  //function for adding new average of rating array
+  //function for adding new average of rating array on db, argument from adding new rating response
   var newAvg = function (beer) {
     var newAverage = { avgRating : avgFun(beer.rating)};
     return $http.post('/rating/'+beer._id, newAverage)
-      .then(function(response) {
+      .then(function(response, beers) {
         getBeers();
       }, function (err) {
         console.log(err)
       })
   };
 
-  //function for adding new rating to specific beer
+  //function for adding new rating to specific beer to db
   var addRating = function () {
     var newRating = { rating : Number(this.userRating)};
     this.userRating = "";
@@ -80,6 +80,25 @@ app.service('service', function($http){
       
   };
 
+  //function for updating edited beer info to db
+  var updateBeer = function () {
+    if(this.edit === true){
+      var editBeer = {
+        name: this.beer.name,
+        abv: this.beer.abv,
+        style: this.beer.style
+      };
+
+      $http.post('/beers/'+this.beer._id, editBeer)
+      .then(function(response) {
+        getBeers()
+      }, function (err) {
+        console.log(err)
+      })
+    }
+    this.edit = !this.edit;
+  };
+
   //exporting functions to the controller
   return { 
     beers: beers,
@@ -87,6 +106,6 @@ app.service('service', function($http){
     addBeer: addBeer,
     removeBeer: removeBeer,
     addRating: addRating,
-    newAvg: newAvg
+    updateBeer: updateBeer
   };
 });

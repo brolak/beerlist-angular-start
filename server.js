@@ -38,19 +38,19 @@ app.put('/beers', function(req, res, next) {
       return next(err);
     } else {
     console.log(req.body);
-    res.send("thanks for adding a beer");
+    res.send(beer);
 	}
   });
 });
 
 //path for beer delete request
 app.delete('/beers/:id', function(req, res, next) {
-  Beer.findByIdAndRemove(req.params.id, function(err) {
+  Beer.findByIdAndRemove(req.params.id, function(err,beer) {
     if (err) {
       console.error(err)
       return next(err);
     } 
-    res.send("Thank you for deleting a beer");
+    //res.send(beer);
   });
 });
 
@@ -77,19 +77,17 @@ app.post('/rating/:id', function(req, res, next) {
   });
 });
 
-
-//path for beer add (PUT) request
-/*will be used for updating beers
-app.put('/beers/:id', function(req, res, next) {
-  Beer.findByIdAndUpdate(req.params.id, req.body, {new:true},function(err, beer) {
+//path for editing already existing beers
+app.post('/beers/:id', function(req, res, next) {
+  Beer.findOneAndUpdate({ _id: req.params.id },  {$set: req.body}, { new: true }, function(err, beer) {
     if (err) {
-      console.error(err)
+      console.error(err);
       return next(err);
     } else {
       res.send(beer);
     }
   });
-});*/
+});
 
 
 // error handler to catch 404 and forward to main error handler

@@ -8,6 +8,7 @@ app.controller('mainController', function($scope,service) {
     $scope.addRating = service.addRating;
     $scope.clearForm = service.clearForm;
     $scope.newAvg = service.newAvg;
+    $scope.updateBeer = service.updateBeer;
 
   //toggle and funciton for sorting beerlist
   	$scope.reverse = false;
@@ -18,10 +19,6 @@ app.controller('mainController', function($scope,service) {
 
   //toggle and function for editing beer list
     $scope.edit = false;
-
-    $scope.editFun = function () {
-      $scope.edit = !$scope.edit;
-    };
 
   //initialy render the database beers to the view
     $scope.getBeers();
