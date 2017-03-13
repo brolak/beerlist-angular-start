@@ -7,12 +7,13 @@ app.controller('mainController', function($scope,service) {
     $scope.removeBeer = service.removeBeer;
     $scope.addRating = service.addRating;
     $scope.clearForm = service.clearForm;
+    $scope.newAvg = service.newAvg;
 
   //toggle and funciton for sorting beerlist
   	$scope.reverse = false;
 
     $scope.sortBeers = function () {
-      this.reverse = !this.reverse;
+      $scope.reverse = !$scope.reverse;
     };
 
   //toggle and function for editing beer list

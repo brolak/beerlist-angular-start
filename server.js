@@ -55,24 +55,25 @@ app.delete('/beers/:id', function(req, res, next) {
 });
 
 //add new rating for a beer to it's rating array
-app.put('/beers/rating/:id', function(req, res, next) {
-  Beer.update({_id: req.params.id }, { $push: req.body },{new:true},function(err) {
+app.put('/rating/:id', function(req, res, next) {
+  Beer.findOneAndUpdate({_id: req.params.id }, { $push: req.body },{new:true},function(err,beers) {
     if (err) {
       console.error(err);
       return next(err);
     }
-    res.send("new rating added");
+    res.send(beers);
   });
 });
 
-//update the average value of ratings, for when rating added
-app.post('/beers/rating/:id', function(req, res, next) {
+
+//path for updating the average of ratings, for when rating added
+app.post('/rating/:id', function(req, res, next) {
   Beer.update({ _id: req.params.id}, req.body,{new:true},function(err) {
     if (err) {
       console.error(err);
       return next(err);
     }
-    res.send("new average!");
+    res.send("we updated the average");
   });
 });
 

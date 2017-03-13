@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var beerSchema = new Schema ({
 	name: String,
-	abv: String,
+	abv: Number,
     style: String,
     image: String,
     rating: [Number],

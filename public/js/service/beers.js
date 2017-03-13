@@ -3,14 +3,6 @@ app.service('service', function($http){
   //empty array for holding beers from database
   var beers = [];
 
-  // function for calculating the average of the ratings array
-  var avgFun = function (arr) {
-      for(i=0,total=0;i<arr.length;i++){
-        total += arr[i];
-      }
-      return (total/arr.length).toFixed(1);
-  };
-
   //function for GETting beers from data base and putting in beer array
   var getBeers = function () {
     return $http.get('/beers')
@@ -26,7 +18,7 @@ app.service('service', function($http){
     var newBeer = {
       name: this.name,
       style: this.style,
-      abv: this.abv,
+      abv: Number(this.abv),
       rating: [Number(this.rating)],
       avgRating: Number(this.rating),
       image: this.image
@@ -56,12 +48,20 @@ app.service('service', function($http){
     })
   };
 
-  var newAvg = function () {
-    var newAverage = { avgRating : avgFun(this.beer.rating)};
-    console.log(newAverage);
-    return $http.post('/beers/rating/'+this.beer._id, newAverage)
+  // function for calculating the average of the ratings array
+  var avgFun = function (arr) {
+    for(i=0,total=0;i<arr.length;i++){
+        total += arr[i];
+      }
+    return (total/arr.length).toFixed(1);
+  };
+
+  //function for adding new average of rating array
+  var newAvg = function (beer) {
+    var newAverage = { avgRating : avgFun(beer.rating)};
+    return $http.post('/rating/'+beer._id, newAverage)
       .then(function(response) {
-        response.send("updated the average");
+        getBeers();
       }, function (err) {
         console.log(err)
       })
@@ -71,11 +71,9 @@ app.service('service', function($http){
   var addRating = function () {
     var newRating = { rating : Number(this.userRating)};
     this.userRating = "";
-    return $http.put('/beers/rating/'+this.beer._id, newRating)
+    return $http.put('/rating/'+this.beer._id, newRating)
       .then(function(response) {
-        console.log(response.beer);
-        newAvg();
-        getBeers();
+        newAvg(response.data);
       }, function (err) {
         console.log(err)
       })
@@ -88,6 +86,7 @@ app.service('service', function($http){
     getBeers: getBeers,
     addBeer: addBeer,
     removeBeer: removeBeer,
-    addRating: addRating
+    addRating: addRating,
+    newAvg: newAvg
   };
 });
