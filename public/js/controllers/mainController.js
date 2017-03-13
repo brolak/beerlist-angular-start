@@ -1,52 +1,26 @@
 app.controller('mainController', function($scope,service) {
-	//define variable in scope of controller
+	
+  //'import' functions from service
   	$scope.beers = service.beers;
+    $scope.getBeers = service.getBeers;
+    $scope.addBeer = service.addBeer;
+    $scope.removeBeer = service.removeBeer;
+    $scope.addRating = service.addRating;
+    $scope.clearForm = service.clearForm;
+    $scope.newAvg = service.newAvg;
+    $scope.updateBeer = service.updateBeer;
 
+  //toggle and funciton for sorting beerlist
   	$scope.reverse = false;
 
+    $scope.sortBeers = function () {
+      $scope.reverse = !$scope.reverse;
+    };
+
+  //toggle and function for editing beer list
     $scope.edit = false;
 
-    $scope.editFun = function () {
-      $scope.edit = !$scope.edit;
-    }
-
-  	$scope.avgFun = function (arr) {
-      for(i=0,total=0;i<arr.length;i++){
-        total += arr[i];
-      }
-      return (total/arr.length).toFixed(1);
-  	};
-
-  	$scope.addBeer = function () {
-	    var newBeer = {
-	      name: this.name,
-	      style: this.style,
-	      abv: this.abv,
-	      rating: [Number(this.rating)],
-	      image: this.image
-	    }
-
-	    this.beers.push(newBeer);
-	    this.name="";
-	    this.style="";
-	    this.abv="";
-	    this.image="";
-	    this.rating="";
-  	}
-
-  	$scope.removeBeer = function () {
-  		this.beers.splice(this.$index,1);
-  	}
-
-
-  	$scope.sortBeers = function () {
-  		this.reverse = !this.reverse;
-  	}
-
-  	$scope.addRating = function () {
-  		//alert(this.beer[this.$index].ratings);
-  		this.beer.rating.push(Number(this.userRating));
-  		this.userRating = "";
-  	}
+  //initialy render the database beers to the view
+    $scope.getBeers();
 
 })
