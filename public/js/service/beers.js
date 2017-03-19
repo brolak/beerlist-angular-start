@@ -39,45 +39,27 @@ app.service('service', function($http){
   };
 
   //function for removing beer from list based on _id in databse and re-render view
-  var removeBeer = function () {
-    return $http.delete('/beers/'+this.beer._id)
+  var removeBeer = function (beerId) {
+    return $http.delete('/beers/'+beerId)
     .then(function(response) {
-      getBeers();
+      var removeIndex = beers.findIndex(beer => beer._id == response.data);
+      beers.splice(removeIndex,1);
     }, function (err) {
       console.log(err)
     })
   };
 
-  // function for calculating the average of the ratings array
-  var avgFun = function (arr) {
-    for(i=0,total=0;i<arr.length;i++){
-        total += arr[i];
-      }
-    return (total/arr.length).toFixed(1);
-  };
-
-  //function for adding new average of rating array on db, argument from adding new rating response
-  var newAvg = function (beer) {
-    var newAverage = { avgRating : avgFun(beer.rating)};
-    return $http.post('/rating/'+beer._id, newAverage)
-      .then(function(response, beers) {
-        getBeers();
-      }, function (err) {
-        console.log(err)
-      })
-  };
-
   //function for adding new rating to specific beer to db
-  var addRating = function () {
-    var newRating = { rating : Number(this.userRating)};
+  var addRating = function (id,rating) {
+    var newRating = { rating : Number(rating)};
     this.userRating = "";
-    return $http.put('/rating/'+this.beer._id, newRating)
+    return $http.put('/beers/'+id+'/rating', newRating)
       .then(function(response) {
-        newAvg(response.data);
+      	var ratingIndex = beers.findIndex(beer => beer._id == response.data);
+      	beers[ratingIndex].rating.push(newRating.rating);
       }, function (err) {
         console.log(err)
-      })
-      
+      })   
   };
 
   //function for updating edited beer info to db
@@ -86,12 +68,17 @@ app.service('service', function($http){
       var editBeer = {
         name: this.beer.name,
         abv: this.beer.abv,
-        style: this.beer.style
+        style: this.beer.style,
+        _id: this.beer._id
       };
 
-      $http.post('/beers/'+this.beer._id, editBeer)
+      $http.post('/beers/'+this.beer._id+'/update', editBeer)
       .then(function(response) {
-        getBeers()
+      	var updateIndex = beers.findIndex(beer => beer._id == response.data._id);
+      	console.log(beers[updateIndex]);
+      	//beers[updateIndex].name = editBeer.name;
+      	//beers[updateIndex].abv = editBeer.abv;
+      	//beers[updateIndex].style = editBeer.style;
       }, function (err) {
         console.log(err)
       })
