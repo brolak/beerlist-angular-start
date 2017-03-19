@@ -32,13 +32,12 @@ app.get('/beers', function (req, res, next) {
 
 //post new beer to database
 app.put('/beers', function(req, res, next) {
-  Beer.create(req.body, function(err, beer) {
+  Beer.create(req.body, function(err) {
     if (err) {
       console.error(err)
       return next(err);
     } else {
-    console.log(req.body);
-    res.send(beer);
+    res.send(req.body);
 	}
   });
 });
@@ -50,41 +49,29 @@ app.delete('/beers/:id', function(req, res, next) {
       console.error(err)
       return next(err);
     } 
-    //res.send(beer);
+    res.send(beer._id);
   });
 });
 
 //add new rating for a beer to it's rating array
-app.put('/rating/:id', function(req, res, next) {
+app.put('/beers/:id/rating', function(req, res, next) {
   Beer.findOneAndUpdate({_id: req.params.id }, { $push: req.body },{new:true},function(err,beers) {
     if (err) {
       console.error(err);
       return next(err);
     }
-    res.send(beers);
-  });
-});
-
-
-//path for updating the average of ratings, for when rating added
-app.post('/rating/:id', function(req, res, next) {
-  Beer.update({ _id: req.params.id}, req.body,{new:true},function(err) {
-    if (err) {
-      console.error(err);
-      return next(err);
-    }
-    res.send("we updated the average");
+    res.send(req.params.id);
   });
 });
 
 //path for editing already existing beers
-app.post('/beers/:id', function(req, res, next) {
-  Beer.findOneAndUpdate({ _id: req.params.id },  {$set: req.body}, { new: true }, function(err, beer) {
+app.post('/beers/:id/update', function(req, res, next) {
+  Beer.findOneAndUpdate({ _id: req.params.id },  {$set: req.body}, { new: true }, function(err) {
     if (err) {
       console.error(err);
       return next(err);
     } else {
-      res.send(beer);
+      res.send(req.body);
     }
   });
 });
