@@ -20,7 +20,6 @@ app.service('service', function($http){
       style: this.style,
       abv: Number(this.abv),
       rating: [Number(this.rating)],
-      avgRating: Number(this.rating),
       image: this.image
     };
 
@@ -62,28 +61,26 @@ app.service('service', function($http){
       })   
   };
 
-  //function for updating edited beer info to db
-  var updateBeer = function () {
-    if(this.edit === true){
-      var editBeer = {
-        name: this.beer.name,
-        abv: this.beer.abv,
-        style: this.beer.style,
-        _id: this.beer._id
-      };
+//array for temporarily storing beers that are being updated
+  var tempBeers = [];
 
-      $http.post('/beers/'+this.beer._id+'/update', editBeer)
+//var for storing old beer information incase update fails
+
+  var oldBeer = {};
+
+  //function for updating edited beer info to db
+  var updateBeer = function (updatedBeer, updateIndex, oldInfo) {
+  	//get rid of the NEW temporary beer info
+      tempBeers[updateIndex] = null;
+     //send info to database
+      $http.post('/beers/'+updatedBeer._id+'/update', updatedBeer)
       .then(function(response) {
-      	var updateIndex = beers.findIndex(beer => beer._id == response.data._id);
-      	console.log(beers[updateIndex]);
-      	//beers[updateIndex].name = editBeer.name;
-      	//beers[updateIndex].abv = editBeer.abv;
-      	//beers[updateIndex].style = editBeer.style;
       }, function (err) {
-        console.log(err)
+     //upon fail, set beer's info back to oldBeer (old info)
+     	alert("update failed!");
+      	beers[updateIndex] = angular.copy(oldInfo);
+        console.log(err);
       })
-    }
-    this.edit = !this.edit;
   };
 
   //exporting functions to the controller
@@ -93,6 +90,8 @@ app.service('service', function($http){
     addBeer: addBeer,
     removeBeer: removeBeer,
     addRating: addRating,
-    updateBeer: updateBeer
+    updateBeer: updateBeer,
+    tempBeers: tempBeers,
+    oldBeer: oldBeer
   };
 });

@@ -62,17 +62,30 @@
 
         <!-- Render area for beers -->
         <div class="row">
-            <div class="col-md-4 text-center beer-block" ng-repeat="beer in beers| orderBy: 'rating': reverse track by beer._id">
-                <h3 ng-hide="edit">{{ beer.name }}</h3>   
-                <input type="text" ng-model="beer.name" ng-show="edit">
+            <div class="col-md-4 text-center beer-block" ng-repeat="beer in beers| orderBy: 'rating': reverse track by $index">
                 <!-- remove/edit button-->
+               <img ng-src="{{ beer.image }}"/>
                 <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer(this.beer._id)"></span>
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-hide="edit" ng-click="updateBeer()"></span>
-                <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="edit" ng-click="updateBeer()"></span>
-                <h4 ng-hide="edit">{{ beer.abv }}% abv.</h4>
-                <input type="text" ng-model="beer.abv" ng-show="edit">
-                <h4 ng-hide="edit">{{ beer.style }}</h4>
-                <input type="text" ng-model="beer.style" ng-show="edit">
+                
+                <!-- regular display -->
+                <div ng-hide="edit">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="editBeer($index)"></span><br>
+                    <h3>{{ beer.name }}</h3>  
+                    <h4>{{ beer.abv }}% abv.</h4>
+                    <h4>{{ beer.style }}</h4>
+                </div>
+
+                <!-- display while editing-->
+                <div ng-show="edit">
+                    <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-click="updateBeer(this.tempBeer);"></span>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="cancelEdit($index)"></span><br>
+                    <input type="text" ng-model="tempBeer.name"><br>
+                    <input type="text" ng-model="tempBeer.abv"><br>
+                    <input type="text" ng-model="tempBeer.style">
+                    <br><br>
+                </div>
+
+                
                 <h4>Average Rating: {{ avgFun(beer.rating) }}</h4>
                 <h4>({{ beer.rating.length }} ratings)</h4>
                 <!-- entry for user beer rating-->
@@ -85,7 +98,7 @@
                             <option value="5">5</option>
                 </select>
                 <button type="button" class="btn btn-info" ng-click="addRating(this.beer._id,this.userRating)">Submit your rating</button>
-                <img ng-src="{{ beer.image }}"/>
+                
             </div>
         </div>
 
