@@ -52,11 +52,13 @@ app.service('service', function($http){
   var addRating = function (id,rating) {
     var newRating = { rating : Number(rating)};
     this.userRating = "";
+    var ratingIndex = beers.findIndex(beer => beer._id == id);
+    beers[ratingIndex].rating.push(newRating.rating);
     return $http.put('/beers/'+id+'/rating', newRating)
       .then(function(response) {
-      	var ratingIndex = beers.findIndex(beer => beer._id == response.data);
-      	beers[ratingIndex].rating.push(newRating.rating);
       }, function (err) {
+      	alert("your rating did not update");
+      	beers[ratingIndex].rating.pop();
         console.log(err)
       })   
   };
