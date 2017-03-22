@@ -5,10 +5,15 @@ img {
 
 .beer-block {
 	border: solid 1px black;
-	height: 580px;
+	height: 620px;
 }
 
 .glyphicon {
 	color: red;
 	display:inline-block;
+}
+
+.review-link {
+	text-decoration: none;
+	color: white;
 }

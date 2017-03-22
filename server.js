@@ -30,14 +30,26 @@ app.get('/beers', function (req, res, next) {
   });
 });
 
+//find one beer in database
+app.get('/beer/:id', function (req, res, next) {
+  Beer.findById(req.params.id, function (error, beer) {
+    if (error) {
+      console.error(error)
+      return next(error);
+    } 
+    res.json(beer);
+    console.log(beer);
+  });
+});
+
 //post new beer to database
 app.put('/beers', function(req, res, next) {
-  Beer.create(req.body, function(err) {
+  Beer.create(req.body, function(err, beer) {
     if (err) {
       console.error(err)
       return next(err);
     } else {
-    res.send(req.body);
+    res.send(beer);
 	}
   });
 });
@@ -122,6 +134,10 @@ app.delete('/beers/:beerid/reviews/:reviewid', function(req, res, next) {
   });
 });
 
+app.all('*', function(req, res) {
+  res.sendFile(__dirname + "/public/index.html")
+});
+
 // error handler to catch 404 and forward to main error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -133,7 +149,7 @@ app.use(function(req, res, next) {
 // warning - not for use in production code!
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.send({
     message: err.message,
     error: err
   });
@@ -143,3 +159,5 @@ app.use(function(err, req, res, next) {
 app.listen(port, function () {
 	console.log(port + " is listening");
 });
+
+

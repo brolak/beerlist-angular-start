@@ -1,5 +1,4 @@
 app.service('service', function($http){
-
   //empty array for holding beers from database
   var beers = [];
 
@@ -8,6 +7,16 @@ app.service('service', function($http){
     return $http.get('/beers')
     .then(function(response) {
       angular.copy(response.data, beers);
+    }, function (err) {
+      console.log(err)
+    })
+  };
+
+  //function for getting single beer information (review ui)
+  var getBeer = function (id) {
+    return $http.get('/beer/'+id)
+    .then(function(response) {
+      return response.data;
     }, function (err) {
       console.log(err)
     })
@@ -28,22 +37,25 @@ app.service('service', function($http){
     this.abv = "";
     this.rating = "";
     this.image = "";
+    beers.push(newBeer);
 
     return $http.put('/beers',newBeer)
       .then(function(response) {
-        beers.push(response.data);
+        angular.copy(response.data, beers[beers.length-1])
       }, function (err) {
+        this.beers.pop();
         console.log(err)
       })
   };
 
-  //function for removing beer from list based on _id in databse and re-render view
-  var removeBeer = function (beerId) {
-    return $http.delete('/beers/'+beerId)
+  //function for removing beer from list based on _id in database and re-render view
+  var removeBeer = function (removeBeer) {
+    var removeIndex = beers.findIndex(beer => beer._id == removeBeer._id);
+    beers.splice(removeIndex,1);
+    return $http.delete('/beers/'+removeBeer._id)
     .then(function(response) {
-      var removeIndex = beers.findIndex(beer => beer._id == response.data);
-      beers.splice(removeIndex,1);
     }, function (err) {
+      beers.push(removeBeer);
       console.log(err)
     })
   };
@@ -80,7 +92,7 @@ app.service('service', function($http){
       }, function (err) {
      //upon fail, set beer's info back to oldBeer (old info)
      	alert("update failed!");
-      	beers[updateIndex] = angular.copy(oldInfo);
+      	angular.copy(oldInfo, beers[updateIndex]);
         console.log(err);
       })
   };
@@ -94,6 +106,7 @@ app.service('service', function($http){
     addRating: addRating,
     updateBeer: updateBeer,
     tempBeers: tempBeers,
-    oldBeer: oldBeer
+    oldBeer: oldBeer,
+    getBeer: getBeer
   };
 });
