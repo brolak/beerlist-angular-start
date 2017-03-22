@@ -1,5 +1,4 @@
 app.controller('mainController', function($scope,service) {
-	
   //'import' functions from service
   	$scope.beers = service.beers;
     $scope.getBeers = service.getBeers;
