@@ -83,18 +83,14 @@ app.service('service', function($http){
   var oldBeer = {};
 
   //function for updating edited beer info to db
-  var updateBeer = function (updatedBeer, updateIndex, oldInfo) {
+  var updateBeer = function (updatedBeer) {
   	//get rid of the NEW temporary beer info
-      tempBeers[updateIndex] = null;
      //send info to database
-      $http.post('/beers/'+updatedBeer._id+'/update', updatedBeer)
-      .then(function(response) {
-      }, function (err) {
-     //upon fail, set beer's info back to oldBeer (old info)
-     	alert("update failed!");
-      	angular.copy(oldInfo, beers[updateIndex]);
-        console.log(err);
+      return $http.post('/beers/'+updatedBeer._id+'/update', updatedBeer)
+      .then(function (response) {
+        return response.data
       })
+      
   };
 
   //exporting functions to the controller

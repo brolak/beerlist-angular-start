@@ -66,11 +66,11 @@
 
                 <!-- display while editing-->
         <div ng-show="edit">
-            <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-click="updateBeer(this.tempBeer);"></span>
+            <span class="glyphicon glyphicon-ok" aria-hidden="true" ng-click="updateBeer(beer);"></span>
             <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="cancelEdit($index)"></span><br>
-            <input type="text" ng-model="tempBeer.name"><br>
-            <input type="text" ng-model="tempBeer.abv"><br>
-            <input type="text" ng-model="tempBeer.style">
+            <input type="text" ng-model="beer.name"><br>
+            <input type="text" ng-model="beer.abv"><br>
+            <input type="text" ng-model="beer.style">
             <br><br>
         </div>
 
