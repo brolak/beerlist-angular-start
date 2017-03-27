@@ -17,7 +17,17 @@ app.config(['$stateProvider','$urlRouterProvider','$locationProvider', function(
       },
       controller: 'beerController',
       templateUrl: '/templates/beer.html'
-    });
+    })
+    .state('register', {
+      url: '/register',
+      templateUrl: '/templates/register.html',
+      controller: 'authController'
+    })
+    .state('login', {
+      url: '/login',
+      templateUrl: '/templates/login.html',
+      controller: 'authController'
+    })
 
     //'default' state
     $urlRouterProvider.otherwise('/home');
