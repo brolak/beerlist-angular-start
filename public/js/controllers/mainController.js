@@ -64,8 +64,6 @@ app.controller('mainController', function($scope,service) {
     return (total/arr.length).toFixed(1);
     };
 
-   
-
     //initialy render the database beers to the view
     $scope.getBeers();
 

@@ -2,7 +2,7 @@
     <div class="row">
             <!-- form for beer details-->
         <div class="col-md-6 col-md-offset-3 text-center">
-        	<form ng-submit="addBeer()">
+        	<form ng-submit="addBeer()" ng-show="currentUser.username">
 	        	<h3>Add a new beer</h3>
 	        	<div class="form-group">
 	            <!-- entry for beer name-->
@@ -53,11 +53,11 @@
     <div class="col-md-4 text-center beer-block" ng-repeat="beer in beers| orderBy: 'rating': reverse track by $index">
                 <!-- remove/edit button-->
         <img ng-src="{{ beer.image }}"/>
-        <span class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer(this.beer)"></span>
+        <span ng-show="currentUser.username" class="glyphicon glyphicon-trash" aria-hidden="true" ng-click="removeBeer(this.beer)"></span>
                 
                 <!-- regular display -->
         <div ng-hide="edit">
-            <span class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="editBeer($index)"></span><br>
+            <span ng-show="currentUser.username" class="glyphicon glyphicon-pencil" aria-hidden="true" ng-click="editBeer($index)"></span><br>
             <h3>{{ beer.name }}</h3>  
             <h4>{{ beer.abv }}% abv.</h4>
             <h4>{{ beer.style }}</h4>
@@ -77,7 +77,7 @@
         <h4>Average Rating: {{ avgFun(beer.rating) }}</h4>
         <h4>({{ beer.rating.length }} ratings)</h4>
             <!-- entry for user beer rating-->
-        <select class="form-control" ng-model="userRating">
+        <select class="form-control" ng-model="userRating" ng-show="currentUser.username">
             <option value="">Add your own rating</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -85,7 +85,7 @@
             <option value="4">4</option>
             <option value="5">5</option>
         </select>
-        <button type="button" class="btn btn-info" ng-click="addRating(this.beer._id,this.userRating)">Submit your rating</button><br>
+        <button type="button" class="btn btn-info" ng-click="addRating(this.beer._id,this.userRating)" ng-show="currentUser.username">Submit your rating</button><br>
         <button type="button" class="btn btn-info"><a class="review-link" ui-sref="beer({id: beer._id, beerParam: beer})">Reviews</a></button>
                 
     </div>
