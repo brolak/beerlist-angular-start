@@ -1,18 +1,22 @@
 <div class="page-header container">
 	<div class="row text-center">
-		<h1>BeerList</h1>
 		<div class="col-md-4">
-			<a ui-sref="home">Home</a>
-			<br>
+			
 			<img ng-src="{{ beer.image }}"/>
 		</div>
-		<form ng-submit="addReview()" class="col-md-8">
-		<h3>Write a beer review for {{beer.name}}:</h3>
-		<div class="form-group">
+		
+		<form ng-show="currentUser.username" ng-submit="console.log(this)" class="col-md-8">
+			<h3>Write a beer review for {{beer.name}}:</h3>
+			<div class="form-group">
 			<!-- entry for beer name-->
-			<input type="text" class="form-control" placeholder="How do you like this beer?" ng-model="review"/>
-		</div>
-		<button type="submit" class="btn btn-primary">Submit Review</button>
+				<input type="text" class="form-control" placeholder="How do you like this beer?" ng-model="review"/>
+			</div>
+			<button type="submit" class="btn btn-primary">Submit Review</button>
+			<br>
+			<h3>REVIEWS:</h3>
+			<div>
+				<p>Example review</p>
+			</div>
 		</form>
 	</div>
 </div>

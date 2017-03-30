@@ -2,6 +2,15 @@ var express = require('express');
 var router = express.Router();
 var Beer = require("../public/js/models/BeerModel.js");
 
+
+var ensureAuthenticated = function(req, res, next) {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    return res.send(401, { message: "Unauthorized" });
+  }
+};
+
 //find all beers in database, used to rendering all
 router.get('/', function (req, res, next) {
   Beer.find(function (error, beers) {
@@ -26,7 +35,7 @@ router.get('/:id', function (req, res, next) {
 });
 
 //post new beer to database
-router.put('/', function(req, res, next) {
+router.put('/', ensureAuthenticated, function(req, res, next) {
   Beer.create(req.body, function(err, beer) {
     if (err) {
       console.error(err)
@@ -38,7 +47,7 @@ router.put('/', function(req, res, next) {
 });
 
 //path for beer delete request
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', ensureAuthenticated, function(req, res, next) {
   Beer.findByIdAndRemove(req.params.id, function(err,beer) {
     if (err) {
       console.error(err)
@@ -49,7 +58,7 @@ router.delete('/:id', function(req, res, next) {
 });
 
 //add new rating for a beer to it's rating array
-router.put('/:id/rating', function(req, res, next) {
+router.put('/:id/rating', ensureAuthenticated, function(req, res, next) {
   Beer.findOneAndUpdate({_id: req.params.id }, { $push: req.body },{new:true},function(err,beers) {
     if (err) {
       console.error(err);
@@ -60,7 +69,7 @@ router.put('/:id/rating', function(req, res, next) {
 });
 
 //path for editing already existing beers
-router.post('/:id/update', function(req, res, next) {
+router.post('/:id/update', ensureAuthenticated, function(req, res, next) {
   Beer.findOneAndUpdate({ _id: req.params.id },  {$set: req.body}, { new: true }, function(err) {
     if (err) {
       console.error(err);
@@ -72,7 +81,7 @@ router.post('/:id/update', function(req, res, next) {
 });
 
 //path for adding new beer review
-router.post('/:id/reviews', function(req, res, next) {
+router.post('/:id/reviews', ensureAuthenticated, function(req, res, next) {
   Beer.findById(req.params.id, function(err, foundBeer) {
     if (err) {
       console.error(err);
@@ -93,7 +102,7 @@ router.post('/:id/reviews', function(req, res, next) {
 });
 
 //path for deleting a beer review
-router.delete('/:beerid/reviews/:reviewid', function(req, res, next) {
+router.delete('/:beerid/reviews/:reviewid', ensureAuthenticated, function(req, res, next) {
   Beer.findById(req.params.beerid, function(err, foundBeer) {
     if (err) {
       return next(err);

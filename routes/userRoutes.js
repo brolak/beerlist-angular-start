@@ -14,7 +14,8 @@ router.get('/', function (req, res, next) {
   });
 });
 
-router.get('/currentuser', function(req, res) {
+//route for retrieving current user
+router.get('/currentUser', function(req, res) {
   if (req.user) {
     res.send(req.user.username)
   } else {
@@ -40,13 +41,7 @@ router.post('/register', function(req, res, next) {
 
 //route for user login
 router.post('/login', passport.authenticate('local'), function(req, res) {
-  if (err) {
-      console.log('Error logging in', err);
-      return next(err);
-  }
-  // If this function gets called, authentication was successful.
-  // `req.user` contains the authenticated user.
-  res.send(req.user.username)
+  res.send(req.user.username);
 });
 
 //route for user logout
