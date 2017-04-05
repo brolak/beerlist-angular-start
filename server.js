@@ -2,8 +2,6 @@
 var express = require('express');
 var app = express();
 
-//example 
-
 //use mongoose dependancy
 var mongoose = require('mongoose');
 mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beers');
