@@ -13,7 +13,7 @@ app.use(express.static('node_modules'));
 
 //use mongoose dependancy
 var mongoose = require('mongoose');
-mongoose.connect(process.env.CONNECTION_STRING || "mongodb://localhost/beers");
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beers');
 var User = require("./public/js/models/UserModel");
 
 //link routes
@@ -53,16 +53,6 @@ app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
-});
-
-// main error handler
-// warning - not for use in production code!
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.send({
-    message: err.message,
-    error: err
-  });
 });
 
 //declare port (heroku publication)
