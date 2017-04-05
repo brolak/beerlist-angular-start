@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var Beer = require("../public/js/models/BeerModel.js");
+var Beer = require("../models/BeerModel.js");
 
 
 var ensureAuthenticated = function(req, res, next) {

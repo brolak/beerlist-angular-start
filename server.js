@@ -5,7 +5,7 @@ var app = express();
 //use mongoose dependancy
 var mongoose = require('mongoose');
 mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beers');
-var User = require("./public/js/models/UserModel");
+var User = require("./models/UserModel");
 
 //passport and session for authentication
 var LocalStrategy = require('passport-local').Strategy;
@@ -23,7 +23,6 @@ var beerRoutes = require('./routes/beerRoutes.js');
 //use body parser middleware
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 //configure passport/session
 app.use(expressSession({

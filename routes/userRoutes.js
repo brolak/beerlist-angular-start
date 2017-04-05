@@ -1,7 +1,7 @@
 var express = require('express');
 var passport = require('passport');
 var router = express.Router();
-var User = require("../public/js/models/UserModel.js");
+var User = require("../models/UserModel.js");
 
 //route for showing all users
 router.get('/', function (req, res, next) {
