@@ -13,7 +13,7 @@ app.use(express.static('node_modules'));
 
 //use mongoose dependancy
 var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/beers");
+mongoose.connect(process.env.CONNECTION_STRING || "mongodb://localhost/beers");
 var User = require("./public/js/models/UserModel");
 
 //link routes
