@@ -4,9 +4,9 @@
 			
 			<img ng-src="{{ beer.image }}"/>
 		</div>
-		
-		<form ng-show="currentUser.username" ng-submit="console.log(this)" class="col-md-8">
-			<h3>Write a beer review for {{beer.name}}:</h3>
+		<h3>Write a beer review for {{beer.name}}:</h3>
+		<form class="col-md-8" ng-submit="console.log('test')" ng-show="currentUser.username"  >
+			
 			<div class="form-group">
 			<!-- entry for beer name-->
 				<input type="text" class="form-control" placeholder="How do you like this beer?" ng-model="review"/>

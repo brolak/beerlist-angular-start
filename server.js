@@ -66,11 +66,9 @@ app.use(function(err, req, res, next) {
 });
 
 //declare port (heroku publication)
-var port = /*process.env.PORT ||*/ 8080;
+var port = process.env.PORT || 8080;
 
 //start listening
 app.listen(port, function () {
 	console.log(port + " is listening");
 });
-
-
