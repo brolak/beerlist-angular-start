@@ -2,6 +2,11 @@
 var express = require('express');
 var app = express();
 
+//use mongoose dependancy
+var mongoose = require('mongoose');
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beers');
+var User = require("./public/js/models/UserModel");
+
 //passport and session for authentication
 var LocalStrategy = require('passport-local').Strategy;
 var passport = require('passport');
@@ -10,11 +15,6 @@ var expressSession = require('express-session');
 //setup directories for server access
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
-
-//use mongoose dependancy
-var mongoose = require('mongoose');
-mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beers');
-var User = require("./public/js/models/UserModel");
 
 //link routes
 var userRoutes = require('./routes/userRoutes.js');
