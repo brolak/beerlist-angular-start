@@ -2,6 +2,11 @@
 var express = require('express');
 var app = express();
 
+//use mongoose dependancy
+var mongoose = require('mongoose');
+mongoose.connect(process.env.CONNECTION_STRING || 'mongodb://localhost/beers');
+var User = require("./public/js/models/UserModel");
+
 //passport and session for authentication
 var LocalStrategy = require('passport-local').Strategy;
 var passport = require('passport');
@@ -10,11 +15,6 @@ var expressSession = require('express-session');
 //setup directories for server access
 app.use(express.static('public'));
 app.use(express.static('node_modules'));
-
-//use mongoose dependancy
-var mongoose = require('mongoose');
-mongoose.connect("mongodb://localhost/beers");
-var User = require("./public/js/models/UserModel");
 
 //link routes
 var userRoutes = require('./routes/userRoutes.js');
@@ -55,22 +55,10 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-// main error handler
-// warning - not for use in production code!
-app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.send({
-    message: err.message,
-    error: err
-  });
-});
-
 //declare port (heroku publication)
-var port = /*process.env.PORT ||*/ 8080;
+var port = process.env.PORT || 8080;
 
 //start listening
 app.listen(port, function () {
 	console.log(port + " is listening");
 });
-
-
