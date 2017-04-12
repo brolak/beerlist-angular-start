@@ -3,7 +3,7 @@ app.controller('beerController', function($scope,$stateParams,service) {
 
 	if (!$stateParams.beerParam) {
     service.getBeer($stateParams.id)
-      .then(function(beer) {
+    .then(function(beer) {
         $scope.beer = beer;
       })
   	} else {

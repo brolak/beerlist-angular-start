@@ -5,6 +5,7 @@ app.factory('authFactory', function($http,$state) {
   auth.currentUser = {};
 
   auth.register = function(user) {
+    console.log(user);
   	return $http.post('/users/register', user)
     .then(function(response) {
       auth.currentUser.username = angular.copy(response.data);
@@ -15,6 +16,7 @@ app.factory('authFactory', function($http,$state) {
   };
 
   auth.login = function (user) {
+    console.log(user);
   	return $http.post('/users/login', user)
     .then(function(response){
       auth.currentUser.username = angular.copy(response.data);

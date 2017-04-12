@@ -25,6 +25,7 @@ router.get('/currentUser', function(req, res) {
 
 //route for user registration
 router.post('/register', function(req, res, next) {
+  console.log(req.body);
   User.register(new User({ username: req.body.username }), req.body.password, function(err, user) {
     if (err) {
       console.log('Error registering!', err);
@@ -41,8 +42,14 @@ router.post('/register', function(req, res, next) {
 
 //route for user login
 router.post('/login', passport.authenticate('local'), function(req, res) {
+  console.log(req.body);
+  console.log("test login");
   res.send(req.user.username);
 });
+
+// router.post('/login', passport.authenticate('local'), function(req, res) {
+//   res.redirect('/');
+// });
 
 //route for user logout
 router.get('/logout', function(req, res) {
